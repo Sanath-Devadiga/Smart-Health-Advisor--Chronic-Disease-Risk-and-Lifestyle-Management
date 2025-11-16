@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Chronic AI</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="icon" href="../static/favicon_io/favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+</head>
+<body>
+
+    <section class="signup">
+        <div class="container">
+            <div class="form-card glass-morphism">
+                <h2>Sign Up</h2>
+                <p>Create an account to explore advanced mental health insights.</p>
+                <form class="contact-form" action="/signup" method="post">
+                  {% if message %}
+                    <p class="error-message">{{ message }}</p>
+                  {% endif %}
+                  
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="user" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" id="fullname" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="number">Phone Number</label>
+                        <input type="tel" id="number" name="mobile" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="submit-button">Sign Up</button>
+                     <a href="/signin" class="signup-link">Already have an account? Sign In</a>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

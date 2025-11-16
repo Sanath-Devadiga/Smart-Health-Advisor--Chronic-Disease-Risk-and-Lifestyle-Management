@@ -1,0 +1,38 @@
+WorkFlow:
+
+1. Explore dataset
+	-  Kaggle Dataset https://www.kaggle.com/datasets/ziya07/personalized-medical-diet-recommendations-dataset/data
+2. Data visualization
+	- Target values 
+	- Correlation Matrix
+3. Preprocessing
+	- Data Mapping
+	- Data Normalization
+	- Data Splitting
+4. Data Balance
+	- RandomOverSampling
+
+6. Train-Test split
+	- 70 - 30
+7. Build the model
+
+	- Train ML models:
+	
+		- Random Forest
+		- Decision Tree
+		- Logistic Regression
+		- SVM
+		- MLP (Neural Net)
+		- XGBoost
+		- Ensemble (Voting RF(Grid search) + Bagging claasifier(RF(grid search)), voting=soft)
+
+8. Comparing the models with accuracy, precision, recall, f1 score
+9. Comparison Graphs are generated with scores of all models.
+10. Flask Integration
+
+	- index.html: user fills form (20 health inputs).
+	- Backend loads model, scales input, predicts disease.
+	- Redirects to chat.html.
+	- Chatbot
+		- Rule-based chatbot gives guidance, diet, prevention for predicted disease.
+		- Supports conversational flow (user Q/A).

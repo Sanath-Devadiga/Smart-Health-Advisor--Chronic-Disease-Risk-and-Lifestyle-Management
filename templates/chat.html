@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Health Adivisor</title>
+    <link rel="stylesheet" href="../static/css/styles.css" />
+    <link rel="stylesheet" href="../static/css/chat.css" />
+    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="icon"
+      href="../static/favicon_io/favicon.ico"
+      type="image/x-icon"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <i class="fas fa-brain"></i>
+          <span>Chronic AI</span>
+        </div>
+         <ul class="nav-menu">
+                <li><a href="/home" style="color: var(--text-primary); font-weight: 400; transition: all 0.3s ease; position: relative; text-decoration: var(--primary-cyan);">Prediction</a></li>
+                <li><a href="/about" style="color: var(--text-primary); font-weight: 400; transition: all 0.3s ease; position: relative; text-decoration: var(--primary-cyan); ">Graphs</a></li>
+                <li><a href="/history" style="color: var(--text-primary); font-weight: 400; transition: all 0.3s ease; position: relative; text-decoration: var(--primary-cyan); ">History</a></li>
+                <li><a href="../static/Notebook.html" style="color: var(--text-primary); font-weight: 400; transition: all 0.3s ease; position: relative; text-decoration: var(--primary-cyan); ">Notebook</a></li>
+                <li><a href="/" style="color: var(--text-primary); font-weight: 400; transition: all 0.3s ease; position: relative; text-decoration: var(--primary-cyan); ">Log Out</a></li>
+            </ul>
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+
+  <!-- Chat Section -->
+  <section id="about" class="about py-5">
+    <div class="container">
+      <div class="chat-card">
+         <div class="d-flex justify-content-between align-items-center mb-3 bot-header animated-glass">
+         <div>
+         <h3 class="m-0 heading-glow">💬 Smart HealthBot</h3>
+         <div class="mt-1">
+         Predicted condition: <span class="disease-badge">{{ disease or session['prediction'] }}</span>
+         </div>
+         </div>
+         </div>
+         <a href="{{ url_for('home') }}" class="new-predict-btn btn-animated">🔄 New Prediction</a>
+
+
+        <div id="chat" class="chat-box">
+          <div class="chat-message bot">
+            <div class="avatar">🤖</div>
+            <div class="bubble bubble-bot">
+              Hi — I can provide tailored tips for <b>{{ disease }}</b>.<br>
+              Ask about <i>diet</i>, <i>habits</i> (exercise, sleep, stress), or <i>prevention</i>.<br>
+              Type “more” to get another tip in the same category.
+            </div>
+          </div>
+        </div>
+         <form id="chatForm" class="chat-form mt-3" autocomplete="off">
+         <input id="message" class="chat-input" type="text" placeholder="Ask about diet, habits, prevention..." />
+         <button class="chat-send-btn" type="submit" aria-label="Send message">
+         <i class="fas fa-paper-plane"></i>
+         </button>
+         </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <i class="fas fa-brain"></i>
+          <span>Chronic AI</span>
+        </div>
+        <p>&copy; 2025 Chronic AI Research. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const chatBox = document.getElementById('chat');
+    const form = document.getElementById('chatForm');
+    const input = document.getElementById('message');
+
+    function appendMessage(who, text, isTyping = false) {
+      const msg = document.createElement('div');
+      msg.className = `chat-message ${who}`;
+
+      const avatar = document.createElement('div');
+      avatar.className = 'avatar';
+      avatar.textContent = who === 'user' ? '👤' : '🤖';
+
+      const bubble = document.createElement('div');
+      bubble.className = `bubble bubble-${who}`;
+      bubble.innerHTML = isTyping ? `<span class="loader-dots"></span>` : text;
+
+      msg.appendChild(avatar);
+      msg.appendChild(bubble);
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      return bubble;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendMessage('user', text);
+      input.value = '';
+
+      const typingBubble = appendMessage('bot', '', true);
+
+      try {
+        const res = await fetch('{{ url_for("chat_send") }}', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text })
+        });
+        const data = await res.json();
+        typingBubble.innerHTML = data.reply;
+      } catch (err) {
+        typingBubble.innerHTML = '⚠️ Sorry — an error occurred. Try again.';
+      }
+
+      chatBox.scrollTop = chatBox.scrollHeight;
+    });
+  </script>
+</body>
+</html>
