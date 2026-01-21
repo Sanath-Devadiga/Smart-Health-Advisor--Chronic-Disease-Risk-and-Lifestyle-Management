@@ -92,15 +92,28 @@ Machine learning model is loaded securely from the models folder
 smart-health-advisor/
 │
 ├── app.py
+├── README.md
+│
 ├── models/
 │   ├── model.zip
 │   ├── disease_model.pkl
 │   └── scaler.pkl
+│
 ├── encryption/
+│   └── encryption.py
+│
 ├── templates/
+│
 ├── static/
+│
 ├── database/
-└── README.md
+│
+├── Notebook.ipynb
+├── Notebook.html
+│
+├── .gitignore
+└── .gitattributes
+
 
 ⚠️ Important Notes
 
