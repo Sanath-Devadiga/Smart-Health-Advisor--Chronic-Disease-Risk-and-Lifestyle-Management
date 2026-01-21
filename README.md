@@ -7,16 +7,11 @@ Smart Health Advisor is a health-focused application that helps users assess chr
 🚀 Features
 
 User health data management
-
 Chronic disease risk assessment
-
 Personalized diet & lifestyle suggestions
-
 Secure health record storage using AES-256 encryption
-
 AI chatbot for health guidance
 
-Separate flow for healthy users and chronic disease patients
 
 🛠️ Technologies Used
 
