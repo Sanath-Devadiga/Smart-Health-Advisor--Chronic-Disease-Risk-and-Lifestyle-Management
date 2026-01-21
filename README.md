@@ -89,6 +89,7 @@ Health data is encrypted using AES-256
 Machine learning model is loaded securely from the models folder
 
 📁 Project Structure
+<pre>
 smart-health-advisor/
 │
 ├── app.py
@@ -103,17 +104,53 @@ smart-health-advisor/
 │   └── encryption.py
 │
 ├── templates/
+│   ├── index.html
+│   ├── home.html
+│   ├── about.html
+│   ├── chat.html
+│   ├── history.html
+│   ├── signin.html
+│   ├── signup.html
+│   └── notfound.html
 │
 ├── static/
+│   ├── css/
+│   │   ├── chat.css
+│   │   ├── custom.css
+│   │   └── styles.css
+│   │
+│   ├── js/
+│   │   └── script.js
+│   │
+│   ├── favicon_io/
+│   │   ├── android-chrome-192x192.png
+│   │   ├── android-chrome-512x512.png
+│   │   ├── apple-touch-icon.png
+│   │   ├── favicon-16x16.png
+│   │   ├── favicon-32x32.png
+│   │   ├── favicon.ico
+│   │   └── site.webmanifest
+│   │
+│   ├── download.png
+│   ├── download (1).png
+│   ├── download (2).png
+│   ├── download (3).png
+│   ├── download (4).png
+│   ├── download (5).png
+│   ├── download (6).png
+│   ├── download (7).png
+│   ├── download (8).png
+│   └── download (9).png
 │
 ├── database/
+│   └──signup.db
 │
 ├── Notebook.ipynb
 ├── Notebook.html
 │
 ├── .gitignore
 └── .gitattributes
-
+</pre>
 
 ⚠️ Important Notes
 
