@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Health Adivisor</title>
+    <link rel="stylesheet" href="../static/css/styles.css" />
+    <link rel="stylesheet" href="../static/css/custom.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="icon"
+      href="../static/favicon_io/favicon.ico"
+      type="image/x-icon"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <i class="fas fa-brain"></i>
+          <span>Chronic AI</span>
+        </div>
+         <ul class="nav-menu">
+                <li><a href="/home" style="color: var(--text-primary); font-weight: 400; transition: all 0.3s ease; position: relative; text-decoration: var(--primary-cyan);">Prediction</a></li>
+                <li><a href="/about" style="color: var(--text-primary); font-weight: 400; transition: all 0.3s ease; position: relative; text-decoration: var(--primary-cyan); ">Graphs</a></li>
+                <li><a href="/history" style="color: var(--text-primary); font-weight: 400; transition: all 0.3s ease; position: relative; text-decoration: var(--primary-cyan); ">History</a></li>
+                <li><a href="../static/Notebook.html" style="color: var(--text-primary); font-weight: 400; transition: all 0.3s ease; position: relative; text-decoration: var(--primary-cyan); ">Notebook</a></li>
+                <li><a href="/" style="color: var(--text-primary); font-weight: 400; transition: all 0.3s ease; position: relative; text-decoration: var(--primary-cyan); ">Log Out</a></li>
+            </ul>
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="hero-background">
+        <div class="animated-bg"></div>
+        <div class="particles"></div>
+      </div>
+      <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="glitch" data-text="AI for Mental Health Safety">SMART HEALTH ADVISOR</span>
+            </h1>
+            <p class="hero-subtitle">
+                RISK ASSESSMENT AND LIFESTYLE GUIDANCE FOR CHRONIC DISEASE PREVENTION
+            </p>
+        <div class="hero-buttons">
+          <button class="cta-button primary" onclick="scrollToSection('demo')">
+            <i class="fas fa-rocket"></i>
+            Explore the Model
+          </button>
+          <a href="/about"><button
+            class="cta-button secondary"
+          >
+            <i class="fas fa-info-circle"></i>
+            Learn More
+          </button></a>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <div class="scroll-arrow">
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+    </section>
+
+
+<!-- Live Demo Section -->
+<section id="demo" class="demo">
+  <div class="container">
+    <div class="section-header fade-in">
+      <h2>Prediction and Lifestyle Guidance</h2>
+      <div class="section-line"></div>
+      <p>Experience our AI model in action</p>
+    </div>
+
+    <div class="demo-container fade-in horizontal-layout">
+      <!-- Demo Interface -->
+      <div class="demo-interface">
+        <div class="demo-header">
+          <h3>Health Risk Assessment Interface</h3>
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span>AI Model Active</span>
+          </div>
+        </div>
+
+        <div class="demo-input">
+        {% if error %}
+        <div id="error-popup" class="error-popup show">
+          <span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span>
+          <span class="error-text">{{ error }}</span>
+          <span class="close-btn" onclick="closeErrorPopup()">×</span>
+        </div>
+        {% endif %}
+          <form id="health-form" method="POST" action="/predict">
+            <div class="input-grid">
+              <label>Age: <input type="number" name="Age" required></label>
+              <label>Gender:
+                <select name="Gender" required>
+                  <option value="">Select</option>
+                  <option value="1">Male</option>
+                  <option value="0">Female</option>
+                  <option value="2">Other</option>
+                </select>
+              </label>
+              <label>Height (cm): <input type="text" name="Height_cm" required></label>
+              <label>Weight (kg): <input type="text" name="Weight_kg" required></label>
+              <label>BMI: <input type="text" name="BMI" step="0.1"></label>
+              <label>Systolic BP: <input type="text" name="Blood_Pressure_Systolic" required></label>
+              <label>Diastolic BP: <input type="text" name="Blood_Pressure_Diastolic" required></label>
+              <label>Cholesterol Level: <input type="text" name="Cholesterol_Level" required></label>
+              <label>Blood Sugar Level: <input type="text" name="Blood_Sugar_Level" required></label>
+              <label>Genetic Risk Factor:
+                <select name="Genetic_Risk_Factor" required>
+                  <option value="">Select</option>
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
+                </select>
+              </label>
+              <label>Allergies:  
+                <select name="Allergies" required>
+                  <option value="">Select</option>
+                  <option value="0">Gluten Intolerance</option>
+                  <option value="1">Lactose Intolerance</option>
+                  <option value="2">None</option>
+                  <option value="3">Nut Allergy</option>
+                </select>
+              </label>
+              <label>Daily Steps: <input type="text" name="Daily_Steps" required></label>
+              <label>Exercise Frequency (per week): <input type="text" name="Exercise_Frequency" required></label>
+              <label>Sleep Hours (per night): <input type="text" name="Sleep_Hours" required></label>
+              <label>Alcohol Consumption:  
+              <select name="Alcohol_Consumption" required>
+                  <option value="">Select</option>
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
+                </select></label>
+              <label>Smoking Habit:
+                 <select name="Smoking_Habit" required>
+                  <option value="">Select</option>
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
+                </select></label>
+              <label>Dietary Habits: 
+                <select name="Dietary_Habits" required>
+                  <option value="">Select</option>
+                  <option value="0">Keto</option>
+                  <option value="1">Regular</option>
+                  <option value="2">Vegan</option>
+                  <option value="3">Vegetarian</option>
+                </select></label>
+              <label>Caloric Intake: <input type="text" name="Caloric_Intake" required></label>
+              <label>Protein Intake: <input type="text" name="Protein_Intake" required></label>
+              <label>Carbohydrate Intake: <input type="text" name="Carbohydrate_Intake" required></label>
+              <label>Fat Intake: <input type="text" name="Fat_Intake" required></label>
+            </div>
+            <button id="detect-btn" class="detect-button" type="submit">
+              <i class="fas fa-search"></i>
+              Analyze Data & Chat with AI
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Stats Section -->
+      <div class="demo-stats">
+        <div class="stat-item">
+          <div class="stat-number">98.7%</div>
+          <div class="stat-label">Accuracy</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">0.3s</div>
+          <div class="stat-label">Response Time</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">50K+</div>
+          <div class="stat-label">Samples Analyzed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+      <div class="container">
+        <div class="section-header fade-in">
+          <h2>How It Works</h2>
+          <div class="section-line"></div>
+          <p>
+            Our AI-powered system follows a sophisticated four-stage process
+          </p>
+        </div>
+        <div class="workflow">
+          <div class="workflow-step fade-in">
+            <div class="step-icon">
+              <i class="fas fa-database"></i>
+            </div>
+            <h3>Data Collection</h3>
+            <p>
+              Secure collection and anonymization of social media text data
+              while maintaining privacy standards
+            </p>
+            <div class="step-number">01</div>
+          </div>
+          <div class="workflow-arrow">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+          <div class="workflow-step fade-in">
+            <div class="step-icon">
+              <i class="fas fa-cogs"></i>
+            </div>
+            <h3>Preprocessing</h3>
+            <p>
+              Advanced text cleaning, tokenization, and feature extraction using
+              state-of-the-art NLP techniques
+            </p>
+            <div class="step-number">02</div>
+          </div>
+          <div class="workflow-arrow">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+          <div class="workflow-step fade-in">
+            <div class="step-icon">
+              <i class="fas fa-robot"></i>
+            </div>
+            <h3>Model Training</h3>
+            <p>
+              Deep neural networks trained on labeled datasets to recognize
+              patterns indicative of depression
+            </p>
+            <div class="step-number">03</div>
+          </div>
+          <div class="workflow-arrow">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+          <div class="workflow-step fade-in">
+            <div class="step-icon">
+              <i class="fas fa-chart-pie"></i>
+            </div>
+            <h3>Prediction</h3>
+            <p>
+              Real-time analysis providing depression risk assessment and mental
+              health insights
+            </p>
+            <div class="step-number">04</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <i class="fas fa-brain"></i>
+            <span>Chronic AI</span>
+          </div>
+          <p>&copy; 2025 Chronic AI Research. All rights reserved.</p>
+        
+        </div>
+      </div>
+    </footer>
+
+    <script src="../static/js/script.js"></script>
+    <script>
+  function closeErrorPopup() {
+    const popup = document.getElementById('error-popup');
+    if (popup) popup.remove();
+  }
+
+  // Auto-dismiss after 4 seconds
+  window.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('error-popup');
+    if (popup) {
+      setTimeout(() => popup.remove(), 4000);
+    }
+  });
+</script>
+
+  </body>
+</html>

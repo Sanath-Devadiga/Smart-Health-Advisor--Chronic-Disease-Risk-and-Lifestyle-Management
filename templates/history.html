@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prediction History - Smart Health Advisor</title>
+    <link rel="stylesheet" href="../static/css/styles.css" />
+    <link rel="stylesheet" href="../static/css/custom.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="icon"
+      href="../static/favicon_io/favicon.ico"
+      type="image/x-icon"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .history-section {
+        min-height: 100vh;
+        padding: 120px 20px 60px;
+        background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+      }
+      
+      .history-container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      
+      .section-header {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+      
+      .section-header h2 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 2.5rem;
+        color: var(--primary-cyan, #00d4ff);
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+      
+      .section-line {
+        width: 100px;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--primary-cyan, #00d4ff), transparent);
+        margin: 0 auto 20px;
+      }
+      
+      .section-header p {
+        color: var(--text-secondary, #b0b0b0);
+        font-size: 1.1rem;
+      }
+      
+      .history-table-container {
+        background: rgba(20, 25, 45, 0.8);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 40px rgba(0, 212, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 212, 255, 0.2);
+        overflow-x: auto;
+        position: relative;
+      }
+      
+      .table-wrapper {
+        overflow-x: auto;
+        overflow-y: visible;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      .history-table {
+        width: 100%;
+        min-width: 2000px;
+        border-collapse: collapse;
+        color: var(--text-primary, #ffffff);
+        white-space: nowrap;
+      }
+      
+      .history-table thead {
+        background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 212, 255, 0.1));
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      
+      .history-table th {
+        padding: 15px 12px;
+        text-align: left;
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 700;
+        color: var(--primary-cyan, #00d4ff);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+        border-right: 1px solid rgba(0, 212, 255, 0.1);
+        white-space: nowrap;
+      }
+      
+      .history-table th:first-child,
+      .history-table th:nth-child(2) {
+        position: sticky;
+        left: 0;
+        background: linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(0, 212, 255, 0.2));
+        z-index: 11;
+      }
+      
+      .history-table th:first-child {
+        left: 0;
+      }
+      
+      .history-table th:nth-child(2) {
+        left: 150px;
+      }
+      
+      .history-table td {
+        padding: 12px 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        border-right: 1px solid rgba(255, 255, 255, 0.05);
+        font-size: 0.85rem;
+        white-space: nowrap;
+      }
+      
+      .history-table td:first-child,
+      .history-table td:nth-child(2) {
+        position: sticky;
+        background: rgba(20, 25, 45, 0.95);
+        z-index: 5;
+      }
+      
+      .history-table td:first-child {
+        left: 0;
+      }
+      
+      .history-table td:nth-child(2) {
+        left: 150px;
+      }
+      
+      .history-table tbody tr {
+        transition: all 0.3s ease;
+      }
+      
+      .history-table tbody tr:hover {
+        background: rgba(0, 212, 255, 0.1);
+      }
+      
+      .history-table tbody tr:hover td:first-child,
+      .history-table tbody tr:hover td:nth-child(2) {
+        background: rgba(0, 212, 255, 0.15);
+      }
+      
+      .history-table tbody tr:last-child td {
+        border-bottom: none;
+      }
+      
+      .prediction-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-weight: 600;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+      }
+      
+      .prediction-badge.diabetes {
+        background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+        color: white;
+      }
+      
+      .prediction-badge.heart-disease {
+        background: linear-gradient(135deg, #ff4757, #c44569);
+        color: white;
+      }
+      
+      .prediction-badge.hypertension {
+        background: linear-gradient(135deg, #ffa502, #ff6348);
+        color: white;
+      }
+      
+      .prediction-badge.obesity {
+        background: linear-gradient(135deg, #ff7675, #d63031);
+        color: white;
+      }
+      
+      .prediction-badge.none {
+        background: linear-gradient(135deg, #00d4ff, #0099cc);
+        color: white;
+      }
+      
+      .date-time {
+        color: var(--text-secondary, #b0b0b0);
+        font-size: 0.8rem;
+        min-width: 150px;
+      }
+      
+      .input-value {
+        color: var(--text-primary, #ffffff);
+        font-weight: 500;
+      }
+      
+      .scroll-hint {
+        text-align: center;
+        color: var(--text-secondary, #b0b0b0);
+        font-size: 0.85rem;
+        margin-bottom: 15px;
+        padding: 10px;
+        background: rgba(0, 212, 255, 0.05);
+        border-radius: 8px;
+      }
+      
+      .scroll-hint i {
+        color: var(--primary-cyan, #00d4ff);
+        margin-right: 8px;
+      }
+      
+      .no-history {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text-secondary, #b0b0b0);
+      }
+      
+      .no-history i {
+        font-size: 4rem;
+        color: var(--primary-cyan, #00d4ff);
+        margin-bottom: 20px;
+        opacity: 0.5;
+      }
+      
+      .no-history h3 {
+        font-family: 'Orbitron', sans-serif;
+        color: var(--text-primary, #ffffff);
+        margin-bottom: 10px;
+      }
+      
+      .error-message {
+        background: rgba(255, 71, 87, 0.2);
+        border: 1px solid rgba(255, 71, 87, 0.5);
+        color: #ff4757;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      
+      @media (max-width: 768px) {
+        .history-table {
+          font-size: 0.7rem;
+          min-width: 1800px;
+        }
+        
+        .history-table th,
+        .history-table td {
+          padding: 10px 8px;
+        }
+        
+        .history-table th {
+          font-size: 0.65rem;
+        }
+        
+        .section-header h2 {
+          font-size: 2rem;
+        }
+        
+        .scroll-hint {
+          font-size: 0.75rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <i class="fas fa-brain"></i>
+          <span>Chronic AI</span>
+        </div>
+        <ul class="nav-menu">
+          <li><a href="/home" style="color: var(--text-primary); font-weight: 400; transition: all 0.3s ease; position: relative; text-decoration: var(--primary-cyan);">Prediction</a></li>
+          <li><a href="/about" style="color: var(--text-primary); font-weight: 400; transition: all 0.3s ease; position: relative; text-decoration: var(--primary-cyan); ">Graphs</a></li>
+          <li><a href="/history" style="color: var(--primary-cyan); font-weight: 600; transition: all 0.3s ease; position: relative; text-decoration: var(--primary-cyan); ">History</a></li>
+          <li><a href="../static/Notebook.html" style="color: var(--text-primary); font-weight: 400; transition: all 0.3s ease; position: relative; text-decoration: var(--primary-cyan); ">Notebook</a></li>
+          <li><a href="/" style="color: var(--text-primary); font-weight: 400; transition: all 0.3s ease; position: relative; text-decoration: var(--primary-cyan); ">Log Out</a></li>
+        </ul>
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- History Section -->
+    <section class="history-section">
+      <div class="history-container">
+        <div class="section-header fade-in">
+          <h2>Prediction History</h2>
+          <div class="section-line"></div>
+          <p>View your encrypted prediction records</p>
+        </div>
+
+        <div class="history-table-container fade-in">
+          {% if error %}
+          <div class="error-message">
+            <i class="fas fa-exclamation-triangle"></i> {{ error }}
+          </div>
+          {% endif %}
+
+          {% if history and history|length > 0 %}
+          <div class="scroll-hint">
+            <i class="fas fa-arrows-alt-h"></i> Scroll horizontally to view all inputs
+          </div>
+          <div class="table-wrapper">
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Date & Time</th>
+                  <th>Prediction</th>
+                  <th>Age</th>
+                  <th>Gender</th>
+                  <th>Height (cm)</th>
+                  <th>Weight (kg)</th>
+                  <th>BMI</th>
+                  <th>BP Systolic</th>
+                  <th>BP Diastolic</th>
+                  <th>Cholesterol</th>
+                  <th>Blood Sugar</th>
+                  <th>Genetic Risk</th>
+                  <th>Allergies</th>
+                  <th>Daily Steps</th>
+                  <th>Exercise Freq</th>
+                  <th>Sleep Hours</th>
+                  <th>Alcohol</th>
+                  <th>Smoking</th>
+                  <th>Dietary Habits</th>
+                  <th>Caloric Intake</th>
+                  <th>Protein Intake</th>
+                  <th>Carb Intake</th>
+                  <th>Fat Intake</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for record in history %}
+                <tr>
+                  <td class="date-time">
+                    <i class="fas fa-calendar-alt"></i> {{ record.created_at }}
+                  </td>
+                  <td>
+                    <span class="prediction-badge {{ record.prediction.lower().replace(' ', '-') }}">
+                      <i class="fas fa-heartbeat"></i> {{ record.prediction }}
+                    </span>
+                  </td>
+                  <td class="input-value">{{ record.inputs.get('Age', 'N/A') }}</td>
+                  <td class="input-value">
+                    {% if record.inputs.get('Gender') == '1' or record.inputs.get('Gender') == 1 %}
+                      Male
+                    {% elif record.inputs.get('Gender') == '0' or record.inputs.get('Gender') == 0 %}
+                      Female
+                    {% elif record.inputs.get('Gender') == '2' or record.inputs.get('Gender') == 2 %}
+                      Other
+                    {% else %}
+                      {{ record.inputs.get('Gender', 'N/A') }}
+                    {% endif %}
+                  </td>
+                  <td class="input-value">{{ record.inputs.get('Height_cm', 'N/A') }}</td>
+                  <td class="input-value">{{ record.inputs.get('Weight_kg', 'N/A') }}</td>
+                  <td class="input-value">{{ record.inputs.get('BMI', 'N/A') }}</td>
+                  <td class="input-value">{{ record.inputs.get('Blood_Pressure_Systolic', 'N/A') }}</td>
+                  <td class="input-value">{{ record.inputs.get('Blood_Pressure_Diastolic', 'N/A') }}</td>
+                  <td class="input-value">{{ record.inputs.get('Cholesterol_Level', 'N/A') }}</td>
+                  <td class="input-value">{{ record.inputs.get('Blood_Sugar_Level', 'N/A') }}</td>
+                  <td class="input-value">
+                    {% if record.inputs.get('Genetic_Risk_Factor') == '1' or record.inputs.get('Genetic_Risk_Factor') == 1 %}
+                      Yes
+                    {% elif record.inputs.get('Genetic_Risk_Factor') == '0' or record.inputs.get('Genetic_Risk_Factor') == 0 %}
+                      No
+                    {% else %}
+                      {{ record.inputs.get('Genetic_Risk_Factor', 'N/A') }}
+                    {% endif %}
+                  </td>
+                  <td class="input-value">
+                    {% set allergy = record.inputs.get('Allergies') %}
+                    {% if allergy == '0' or allergy == 0 %}
+                      Gluten Intolerance
+                    {% elif allergy == '1' or allergy == 1 %}
+                      Lactose Intolerance
+                    {% elif allergy == '2' or allergy == 2 %}
+                      None
+                    {% elif allergy == '3' or allergy == 3 %}
+                      Nut Allergy
+                    {% else %}
+                      {{ allergy if allergy else 'N/A' }}
+                    {% endif %}
+                  </td>
+                  <td class="input-value">{{ record.inputs.get('Daily_Steps', 'N/A') }}</td>
+                  <td class="input-value">{{ record.inputs.get('Exercise_Frequency', 'N/A') }}</td>
+                  <td class="input-value">{{ record.inputs.get('Sleep_Hours', 'N/A') }}</td>
+                  <td class="input-value">
+                    {% if record.inputs.get('Alcohol_Consumption') == '1' or record.inputs.get('Alcohol_Consumption') == 1 %}
+                      Yes
+                    {% elif record.inputs.get('Alcohol_Consumption') == '0' or record.inputs.get('Alcohol_Consumption') == 0 %}
+                      No
+                    {% else %}
+                      {{ record.inputs.get('Alcohol_Consumption', 'N/A') }}
+                    {% endif %}
+                  </td>
+                  <td class="input-value">
+                    {% if record.inputs.get('Smoking_Habit') == '1' or record.inputs.get('Smoking_Habit') == 1 %}
+                      Yes
+                    {% elif record.inputs.get('Smoking_Habit') == '0' or record.inputs.get('Smoking_Habit') == 0 %}
+                      No
+                    {% else %}
+                      {{ record.inputs.get('Smoking_Habit', 'N/A') }}
+                    {% endif %}
+                  </td>
+                  <td class="input-value">
+                    {% set diet = record.inputs.get('Dietary_Habits') %}
+                    {% if diet == '0' or diet == 0 %}
+                      Keto
+                    {% elif diet == '1' or diet == 1 %}
+                      Regular
+                    {% elif diet == '2' or diet == 2 %}
+                      Vegan
+                    {% elif diet == '3' or diet == 3 %}
+                      Vegetarian
+                    {% else %}
+                      {{ diet if diet else 'N/A' }}
+                    {% endif %}
+                  </td>
+                  <td class="input-value">{{ record.inputs.get('Caloric_Intake', 'N/A') }}</td>
+                  <td class="input-value">{{ record.inputs.get('Protein_Intake', 'N/A') }}</td>
+                  <td class="input-value">{{ record.inputs.get('Carbohydrate_Intake', 'N/A') }}</td>
+                  <td class="input-value">{{ record.inputs.get('Fat_Intake', 'N/A') }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="no-history">
+            <i class="fas fa-history"></i>
+            <h3>No Prediction History</h3>
+            <p>You haven't made any predictions yet. Start by making a prediction to see your history here.</p>
+            <a href="/home" style="display: inline-block; margin-top: 20px;">
+              <button class="cta-button primary" style="padding: 12px 30px;">
+                <i class="fas fa-rocket"></i> Make a Prediction
+              </button>
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <i class="fas fa-brain"></i>
+            <span>Chronic AI</span>
+          </div>
+          <p>&copy; 2025 Chronic AI Research. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../static/js/script.js"></script>
+  </body>
+</html>
+

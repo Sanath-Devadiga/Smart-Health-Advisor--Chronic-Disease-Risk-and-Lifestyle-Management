@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In - Chronic AI</title>
+    <link rel="stylesheet" href="../static/css/styles.css" />
+    <link
+      rel="icon"
+      href="../static/favicon_io/favicon.ico"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <section class="signin">
+      <div class="container">
+        <div class="form-card glass-morphism">
+          <h2>Sign In</h2>
+          <p>SignIn to explore advanced mental health insights.</p>
+          <form class="contact-form" action="/signin" method="POST">
+           {% if message %}
+                <p class="error-message">{{ message }}</p>
+            {% endif %}
+
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" name="user" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" required />
+            </div>
+            <button type="submit" class="submit-button">Sign In</button>
+            <a href="/logon" class="signup-link"
+              >Don't have an account? Sign Up</a
+            >
+          </form>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
